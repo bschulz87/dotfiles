@@ -9,5 +9,6 @@ set -gx VISUAL nvim
 set -gx EDITOR nvim
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 set -gx FZF_DEFAULT_OPTS '-m --height 50% --border'
+alias vim="nvim"
 source /opt/asdf-vm/asdf.fish
 . ~/.asdf/plugins/java/set-java-home.fish
