@@ -2,13 +2,13 @@ set visualbell
 set noswapfile
 set relativenumber
 set number
-set autoindent
+set autoindent expandtab tabstop=2 shiftwidth=2
 set colorcolumn=80
 set termguicolors
-"set autochdir
+"set autochdir "can mess up plugins"
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+"Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'dart-lang/dart-vim-plugin'
@@ -28,9 +28,33 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'ldelossa/nvim-dap-projects'
 Plug 'tpope/vim-obsession'
 Plug 'airblade/vim-gitgutter'
+Plug 'google/vim-jsonnet'
+Plug 'dyng/ctrlsf.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'jparise/vim-graphql'
+Plug 'Pocco81/auto-save.nvim'
+Plug 'pseewald/anyfold'
+Plug 'huggingface/llm.nvim'
 call plug#end()
 
+
 lua << EOF
+require("auto-save").setup {
+  -- https://github.com/pocco81/auto-save.nvim#%EF%B8%8F-configuration
+}
+
+require('llm').setup({
+  model = "codellama:7b",
+  backend = "ollama",
+  url = "http://192.168.8.132:11434/api/generate", 
+  request_body = {
+    options = {
+      temperature = 0.2,
+      top_p = 0.95
+    }
+  },
+})
+
 local dap = require('dap')
 
 dap.adapters.dart = {
@@ -43,8 +67,8 @@ dap.configurations.dart = {
       type = "dart",
       request = "launch",
       name = "Launch flutter",
-      dartSdkPath = "/home/ben/.asdf/installs/flutter/3.10.2-stable/bin/cache/dart-sdk/",
-      flutterSdkPath = "/home/ben/.asdf/installs/flutter/3.10.2-stable",
+      dartSdkPath = "/home/ben/.asdf/installs/flutter/3.13.3-stable/bin/cache/dart-sdk/",
+      flutterSdkPath = "/home/ben/.asdf/installs/flutter/3.13.3-stable",
       program = "${workspaceFolder}/lib/main.dart",
       cwd = "${workspaceFolder}",
       args = { '--flavor', 'stage', '--dart-define', 'ENVIRONMENT=stage' },
@@ -52,7 +76,9 @@ dap.configurations.dart = {
   }
 EOF
 
-let g:fzfSwitchProjectWorkspaces = [ '~/work' ]
+let g:fzfSwitchProjectWorkspaces = [ '~/work/friedrichstadt-palast/friedrichstadt-palast-app' ]
+let g:python3_host_prog = '/usr/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
 
 colorscheme tokyonight
 let g:airline_theme = 'minimalist'
@@ -62,17 +88,23 @@ let g:dartfmt_options = ['--fix', '--line-length 120']
 let g:flutter_show_log_on_run = 0
 let g:flutter_autoscroll = 1
 let g:flutter_close_on_quit = 1
-
+let g:javaScript_fold = 1
+filetype plugin indent on " required
+syntax on                 " required
+autocmd Filetype * AnyFoldActivate               " activate for all filetypes
+autocmd Filetype <your-filetype> AnyFoldActivate " activate for a specific filetype
+set foldlevel=99 " Open all folds
 
 let mapleader=","
-nnoremap <leader>tt :NERDTreeToggle<cr>
+"nnoremap <leader>tt :NERDTreeToggle<cr>
 nmap <C-P> :FZF<CR>
 xmap <C-P> :FZF<CR>
-nmap <C-B> :Buffers<CR>
-xmap <C-B> :Buffers<CR>
+"nmap <C-B> :Buffers<CR>
+"xmap <C-B> :Buffers<CR>
 
 nnoremap <leader>fa :FlutterRun
 nnoremap <leader>fas :FlutterRun --flavor stage --dart-define ENVIRONMENT=stage<cr>
+nnoremap <leader>fad :FlutterRun --flavor dev --dart-define ENVIRONMENT=dev<cr>
 nnoremap <leader>fasb :FlutterRun -t lib/src/showcase/main.dart -d chrome<cr>
 nnoremap <leader>fq :FlutterQuit<cr>
 nnoremap <leader>fr :FlutterHotReload<cr>
@@ -81,6 +113,11 @@ nnoremap <leader>fD :FlutterVisualDebug<cr>
 
 xmap <leader>a <Plug>(coc-codeaction-selected)<cr>
 nmap <leader>a <Plug>(coc-codeaction-selected)<cr>
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 try
     nmap <silent> [C :call CocAction('diagnosticNext')<cr>
@@ -92,4 +129,10 @@ xmap <leader>+l :Limelight!!<CR>
 nmap <leader>+g :Goyo<CR>
 xmap <leader>+g :Goyo<CR>
 
+nnoremap <C-f> :CtrlSF
 
+"Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
