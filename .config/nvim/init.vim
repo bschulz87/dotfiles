@@ -35,6 +35,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
 Plug 'huggingface/llm.nvim'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 
@@ -131,8 +132,8 @@ xmap <leader>+g :Goyo<CR>
 
 nnoremap <C-f> :CtrlSF
 
-"Use ctrl-[hjkl] to select the active split!
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
+" Use ctrl-[hjkl] to select the tmux pane "
+nmap <c-k> :TmuxNavigateUp<CR>
+nmap <c-j> :TmuxNavigateDown<CR> 
+nmap <c-h> :TmuxNavigateLeft<CR> 
+nmap <c-l> :TmuxNavigateRight<CR> 
