@@ -34,7 +34,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'jparise/vim-graphql'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
-Plug 'huggingface/llm.nvim'
+"Plug 'huggingface/llm.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
