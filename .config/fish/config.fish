@@ -11,9 +11,12 @@ set -gx EDITOR nvim
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 set -gx FZF_DEFAULT_OPTS '-m --height 50% --border'
 alias vim="nvim"
+alias ls="eza"
+alias cat="bat -p"
 source /opt/asdf-vm/asdf.fish
 . ~/.asdf/plugins/java/set-java-home.fish
 
 # Created by `pipx` on 2024-02-14 15:57:20
 set PATH $PATH /home/ben/.local/bin
 zoxide init --cmd cd fish | source
+#starship init fish | source
