@@ -1,5 +1,5 @@
 all:
-	stow --verbose --target=$$HOME --restow */
+	stow --verbose --target=$$HOME/.config --no-folding --restow .config*/
 
 delete:
-	stow --verbose --target=$$HOME --delete */
+	stow --verbose --target=$$HOME/.config --delete .config*/
