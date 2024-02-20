@@ -34,27 +34,15 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'jparise/vim-graphql'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
-"Plug 'huggingface/llm.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
+" source "./llm.vim""
 
 lua << EOF
 require("auto-save").setup {
   -- https://github.com/pocco81/auto-save.nvim#%EF%B8%8F-configuration
 }
-
-require('llm').setup({
-  model = "codellama:7b",
-  backend = "ollama",
-  url = "http://192.168.8.132:11434/api/generate", 
-  request_body = {
-    options = {
-      temperature = 0.2,
-      top_p = 0.95
-    }
-  },
-})
 
 local dap = require('dap')
 
