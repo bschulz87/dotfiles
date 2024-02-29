@@ -35,6 +35,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'folke/persistence.nvim'
 call plug#end()
 
 " source "./llm.vim""
@@ -65,6 +66,7 @@ dap.configurations.dart = {
   }
 EOF
 
+let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --exclude vendor --exclude "chunk-*" --ignore-file ~/.gitignore'
 let g:fzfSwitchProjectWorkspaces = [ '~/work' ]
 let g:python3_host_prog = '/usr/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
