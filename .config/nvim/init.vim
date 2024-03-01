@@ -7,8 +7,14 @@ set colorcolumn=80
 set termguicolors
 "set autochdir "can mess up plugins"
 call plug#begin()
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'dart-lang/dart-vim-plugin'
@@ -21,7 +27,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'benwainwright/fzf-project'
-Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
@@ -31,16 +36,55 @@ Plug 'airblade/vim-gitgutter'
 Plug 'google/vim-jsonnet'
 Plug 'dyng/ctrlsf.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'jparise/vim-graphql'
 Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'folke/persistence.nvim'
+Plug 'mileszs/ack.vim'
+"Plug 'David-Kunz/gen.nvimA', { }
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig' 
+Plug 'rmagatti/auto-session'
 call plug#end()
 
 " source "./llm.vim""
 
 lua << EOF
+require'lspconfig'.dartls.setup{}
+require'lspconfig'.jsonnet_ls.setup{}
+require'lspconfig'.jsonls.setup{}
+require'lspconfig'.kotlin_language_server.setup{}
+require'lspconfig'.markdown_oxide.setup{}
+require'lspconfig'.phpactor.setup{}
+require'lspconfig'.postgres_lsp.setup{}
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.vuels.setup{}
+require'lspconfig'.graphql.setup{}
+require'lspconfig'.bashls.setup{}
+
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }
+    }, {
+      { name = 'buffer' },
+    })
+})
+
 require("auto-save").setup {
   -- https://github.com/pocco81/auto-save.nvim#%EF%B8%8F-configuration
 }
@@ -101,19 +145,6 @@ nnoremap <leader>fq :FlutterQuit<cr>
 nnoremap <leader>fr :FlutterHotReload<cr>
 nnoremap <leader>fR :FlutterHotRestart<cr>
 nnoremap <leader>fD :FlutterVisualDebug<cr>
-
-xmap <leader>a <Plug>(coc-codeaction-selected)<cr>
-nmap <leader>a <Plug>(coc-codeaction-selected)<cr>
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-try
-    nmap <silent> [C :call CocAction('diagnosticNext')<cr>
-    nmap <silent> ]C :call CocAction('diagnosticPrevious')<cr>
-endtry
 
 nmap <leader>+l :Limelight!!<CR>
 xmap <leader>+l :Limelight!!<CR>
