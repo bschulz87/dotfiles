@@ -5,7 +5,6 @@ set number
 set autoindent expandtab tabstop=2 shiftwidth=2
 set colorcolumn=80
 set termguicolors
-"set autochdir "can mess up plugins"
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -40,14 +39,12 @@ Plug 'Pocco81/auto-save.nvim'
 Plug 'pseewald/anyfold'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mileszs/ack.vim'
-"Plug 'David-Kunz/gen.nvimA', { }
+Plug 'David-Kunz/gen.nvim', { }
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig' 
 Plug 'rmagatti/auto-session'
 call plug#end()
-
-" source "./llm.vim""
 
 lua << EOF
 require'lspconfig'.dartls.setup{}
@@ -61,6 +58,10 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.vuels.setup{}
 require'lspconfig'.graphql.setup{}
 require'lspconfig'.bashls.setup{}
+
+require('gen').setup({
+  model = 'gemma:2b',
+})
 
   local cmp = require'cmp'
 
@@ -110,7 +111,7 @@ dap.configurations.dart = {
   }
 EOF
 
-let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --exclude vendor --exclude "chunk-*" --ignore-file ~/.gitignore'
+let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --exclude vendor --exclude "Runner*" --exclude "chunk-*" --ignore-file ~/.gitignore'
 let g:fzfSwitchProjectWorkspaces = [ '~/work' ]
 let g:python3_host_prog = '/usr/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
@@ -119,7 +120,7 @@ colorscheme tokyonight
 let g:airline_theme = 'minimalist'
 
 let g:dart_format_on_save = 1
-let g:dartfmt_options = ['--fix', '--line-length 120']
+let g:dartfmt_options = ['--fix', '--line-length 120'] " would go with 80 if team allows
 let g:flutter_show_log_on_run = 0
 let g:flutter_autoscroll = 1
 let g:flutter_close_on_quit = 1
@@ -131,7 +132,6 @@ autocmd Filetype <your-filetype> AnyFoldActivate " activate for a specific filet
 set foldlevel=99 " Open all folds
 
 let mapleader=","
-"nnoremap <leader>tt :NERDTreeToggle<cr>
 nmap <C-P> :FZF<CR>
 xmap <C-P> :FZF<CR>
 "nmap <C-B> :Buffers<CR>
