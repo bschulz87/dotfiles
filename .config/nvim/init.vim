@@ -5,6 +5,8 @@ set number
 set autoindent expandtab tabstop=2 shiftwidth=2
 set colorcolumn=80
 set termguicolors
+set shell=bash
+set sessionoptions+=winpos,terminal,folds
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -58,6 +60,14 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.vuels.setup{}
 require'lspconfig'.graphql.setup{}
 require'lspconfig'.bashls.setup{}
+
+require("auto-session").setup {
+  log_level = "error",
+  auto_session_suppress_dirs = { "~/", "~/work", "~/Downloads", "/"},
+  auto_session_enabled = true,
+  auto_save_enabled = true,
+  auto_restore_enabled = true,
+}
 
 require('gen').setup({
   model = 'gemma:2b',
