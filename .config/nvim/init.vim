@@ -16,6 +16,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'airblade/vim-rooter'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'dart-lang/dart-vim-plugin'
@@ -63,7 +64,7 @@ require'lspconfig'.bashls.setup{}
 
 require("auto-session").setup {
   log_level = "error",
-  auto_session_suppress_dirs = { "~/", "~/work", "~/Downloads", "/"},
+  auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
   auto_session_enabled = true,
   auto_save_enabled = true,
   auto_restore_enabled = true,
@@ -112,8 +113,8 @@ dap.configurations.dart = {
       type = "dart",
       request = "launch",
       name = "Launch flutter",
-      dartSdkPath = "/home/ben/.asdf/installs/flutter/3.13.3-stable/bin/cache/dart-sdk/",
-      flutterSdkPath = "/home/ben/.asdf/installs/flutter/3.13.3-stable",
+      dartSdkPath = "/home/ben/.asdf/installs/flutter/3.19.2-stable/bin/cache/dart-sdk/",
+      flutterSdkPath = "/home/ben/.asdf/installs/flutter/3.19.2-stable",
       program = "${workspaceFolder}/lib/main.dart",
       cwd = "${workspaceFolder}",
       args = { '--flavor', 'stage', '--dart-define', 'ENVIRONMENT=stage' },
@@ -147,6 +148,7 @@ xmap <C-P> :FZF<CR>
 "nmap <C-B> :Buffers<CR>
 "xmap <C-B> :Buffers<CR>
 
+nnoremap <silent> ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <leader>fa :FlutterRun
 nnoremap <leader>fas :FlutterRun --flavor stage --dart-define ENVIRONMENT=stage<cr>
 nnoremap <leader>fad :FlutterRun --flavor dev --dart-define ENVIRONMENT=dev<cr>
